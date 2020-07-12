@@ -5,7 +5,7 @@ const App = require('./app');
 const config = require('config');
 
 const PORT = process.env.PORT || config.get('port');
-const HOST = '127.0.0.1';
+const HOST = '0.0.0.0';
 
 const httpServer = http.createServer(App());
 
