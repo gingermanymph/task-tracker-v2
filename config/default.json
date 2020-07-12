@@ -1,0 +1,5 @@
+{
+    "port": 5000,
+    "jwtSecret": "ijkodefrhijjsfpeq34igtjsdgpjersagtkaiog",
+    "mongoUri": "mongodb+srv://noderest:noderest123@cluster0.josvz.azure.mongodb.net/task-tracker?retryWrites=true&w=majority"
+}
