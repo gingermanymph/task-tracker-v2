@@ -3,6 +3,24 @@
 Configured API on this web server https://task-tracker-v2.herokuapp.com/
 The server will start automatically in 5 - 7 seconds after clicking on this link.
 
+### Routes
+ - Users
+     - /api/users
+     - /api/users?page=1&limit=10
+     - /api/users/{user_id}
+     - /api/users/signup
+     - /api/users/login
+     - /api/users/edit
+     - /api/users/delete
+ - Tasks
+     - /api/tasks
+     - /api/tasks?filter=View&sort=asc
+     - /api/tasks/create
+     - /api/tasks/{task_id}/edit
+     - /api/tasks/{task_id}/changeStatus
+     - /api/tasks/{task_id}/assignTo
+     - /api/tasks/{task_id}/delete
+
 ### Пользователь
 
 - Регистрация пользователя
