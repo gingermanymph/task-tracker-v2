@@ -1,0 +1,435 @@
+{
+	"info": {
+		"_postman_id": "dab4445d-f731-4c01-bcf4-b742b8df6270",
+		"name": "task tracker v2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\" : \"Bohdan\",\n    \"lastName\": \"Pantiukhov\",\n    \"email\": \"b.p1@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}/api/users/signup",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						},
+						"description": "User signup"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"b.p3@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}/api/users/login",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						},
+						"description": "User login"
+					},
+					"response": []
+				},
+				{
+					"name": "Get users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}/api/users?page=1&limit=10",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Users list with pagination"
+					},
+					"response": []
+				},
+				{
+					"name": "Get user info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}/api/users/5f0b99a3309f5c0017b4bd86",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"5f0b99a3309f5c0017b4bd86"
+							]
+						},
+						"description": "Get users"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit user",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\" : \"Coffee\",\n    \"lastName\": \"Maker\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}/api/users/edit",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"edit"
+							]
+						},
+						"description": "User edit"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMGI0YThkMzZjN2JlMmYzN2FkZmEwMCIsImlhdCI6MTU5NDU3NjAxMywiZXhwIjoxNTk0NTg2ODEzfQ.hpf2DggeTclnZRoQw3jMF7vTRZ2ZCRmKxEl8Uvxh98U",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{host}}/api/users/delete",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"delete"
+							]
+						},
+						"description": "User delete"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "Create Task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMGJhNTdjOTQ4MzI2MGJmNzRmMTY3MyIsImlhdCI6MTU5NDU5ODg4NH0.bx17C2hr41t6TgZHV2M1zS4B8xQklL_UINTkpSrFF00",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Make a coffe\",\n    \"description\": \"Make the best coffe for this night\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}/api/tasks/create",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"create"
+							]
+						},
+						"description": "Task create"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Task",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Mega task #3 (updated)\",\n    \"description\": \"Lorem ipsum Lorem ipsum Lorem ipsum \"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}/api/tasks/5f0ba6479483260bf74f167e/edit",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"5f0ba6479483260bf74f167e",
+								"edit"
+							]
+						},
+						"description": "Task edit"
+					},
+					"response": []
+				},
+				{
+					"name": "Change Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}/api/tasks/5f0bac79766c320d3f048b90/changeStatus",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"5f0bac79766c320d3f048b90",
+								"changeStatus"
+							]
+						},
+						"description": "Change Status"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete task",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMGJhNTdjOTQ4MzI2MGJmNzRmMTY3MyIsImlhdCI6MTU5NDU5ODg4NH0.bx17C2hr41t6TgZHV2M1zS4B8xQklL_UINTkpSrFF00",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://{{host}}/api/tasks/5f0ba33d0b44290a084813eb/delete",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"5f0ba33d0b44290a084813eb",
+								"delete"
+							]
+						},
+						"description": "Delete task"
+					},
+					"response": []
+				},
+				{
+					"name": "Assign to user",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"assignTo\": \"5f0ba5849483260bf74f1676\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{host}}/api/tasks/5f0ba62c9483260bf74f167c/assignTo",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"5f0ba62c9483260bf74f167c",
+								"assignTo"
+							]
+						},
+						"description": "Assign to user"
+					},
+					"response": []
+				},
+				{
+					"name": "Get tasks filter, sort",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{host}}/api/tasks?filter=View&sort=asc",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "View"
+								},
+								{
+									"key": "sort",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "Tasks list"
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f1aa7458-a3d9-412e-a21e-538c371cc0f9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6355a056-00ff-4b0a-bda0-5bd0041df66d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
