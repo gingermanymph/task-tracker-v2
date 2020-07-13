@@ -4,7 +4,7 @@ const Task = require('../models/task');
 const User = require('../models/user');
 const HttpError = require('../helpers/http-error');
 
-// Create task
+/* Create task */
 const createTask = async (req, res, next) => {
     const { title, description } = req.body;
     const userId = req.user.id;
@@ -13,7 +13,6 @@ const createTask = async (req, res, next) => {
     try {
         user = await User.findById(userId);
     } catch (err) {
-        console.log(user)
         const error = new HttpError(err.message, 500);
         return next(error);
     }
@@ -32,7 +31,6 @@ const createTask = async (req, res, next) => {
         createdAt: Date.now()
     });
 
-
     try {
         const sess = await mongoose.startSession();
         sess.startTransaction();
@@ -41,15 +39,14 @@ const createTask = async (req, res, next) => {
         await user.save({ session: sess });
         await sess.commitTransaction();
     } catch (err) {
-        console.log(err)
-        const error = new HttpError('Creating task failed, please try again.', 500);
+        const error = new HttpError(err.message, 500);
         return next(error);
     }
 
     res.status(201).json({ data: { task: createdtask } });
 }
 
-// Edit task
+/* Edit task */
 const editTask = async (req, res, next) => {
     const { title, description } = req.body;
     const taskId = req.params.tid;
@@ -59,7 +56,7 @@ const editTask = async (req, res, next) => {
     try {
         task = await Task.findById(taskId);
     } catch (err) {
-        const error = new HttpError('Something went wrong, could not update task', 500);
+        const error = new HttpError(err.message, 500);
         return next(error);
     }
 
@@ -77,29 +74,23 @@ const editTask = async (req, res, next) => {
     task.description = !!description ? description : task.description;
 
     try {
-        // Task.updateOne({ _id: taskl._id }, {$set: {
-        //     title,
-        //     description
-        // }})
         await task.save();
     } catch (err) {
-        const error = new HttpError('Something went wrong, could not update task', 500);
+        const error = new HttpError(err.message, 500);
         return next(error);
     }
 
-    res.status(200).json({ data: { task: task.toObject({ getters: true }), message: 'Success!' } });
+    res.status(200).json({ data: { task, message: 'Success!' } });
 }
 
-// Change status
+/* Change status */
 const changeStatus = async (req, res, next) => {
     const STATUSES = ["View", "In Progress", "Done"];
     const { status } = req.body;
     const taskId = req.params.tid;
 
-    console.log(status)
-
     if (!STATUSES[status]) {
-        return res.status(422).json({ message: "Incorrect status, '0 - View', '1 - In Pgogress', '2 - Done'" });
+        return res.status(422).json({ data: { message: "Incorrect status, '0 - View', '1 - In Pgogress', '2 - Done'" } });
     }
 
     let existTask;
@@ -107,7 +98,7 @@ const changeStatus = async (req, res, next) => {
     try {
         existTask = await Task.findById(taskId);
     } catch (err) {
-        const error = new HttpError(`Something went wrong, could not edit task. ${err}`, 500);
+        const error = new HttpError(err.message, 500);
         return next(error);
     }
 
@@ -120,14 +111,14 @@ const changeStatus = async (req, res, next) => {
     try {
         await existTask.save();
     } catch (err) {
-        const error = new HttpError(`Something went wrong, could not edit task ${err}`, 500);
+        const error = new HttpError(err.message, 500);
         return next(error);
     }
 
     res.json({ task: existTask, message: "The status has been changed." });
 }
 
-// Delete task
+/* Delete task */
 const deleteTask = async (req, res, next) => {
     const taskId = req.params.tid;
     const userId = req.user.id;
@@ -146,14 +137,13 @@ const deleteTask = async (req, res, next) => {
         return next(error);
     }
 
-
     if (task.owner && !task.owner.equals(userId)) {
         const error = new HttpError('Forbidden.', 403);
         return next(error);
     }
 
-
     try {
+
         if (task.assignTo || task.owner) {
             await User.updateOne({ _id: task.assignTo || task.owner }, { $pull: { tasks: task._id } });
         }
@@ -161,13 +151,14 @@ const deleteTask = async (req, res, next) => {
         await Task.remove({ _id: task._id });
 
     } catch (err) {
-        const error = new HttpError(`Something went wrong, could not delete task. \n ${err.message}`, 500);
+        const error = new HttpError(err.message, 500);
         return next(error);
     }
-    res.status(200).json({ data: { message: 'Deleted task.' } });
+
+    res.status(200).json({ data: { message: 'Success!' } });
 }
 
-// Filtering by status, sorting asc/desc
+/* Get tasks with filtering by status and sorting asc/desc */
 const getTasks = async (req, res, next) => {
     const filter = req.query.filter;
     const sort = req.query.sort;
@@ -184,27 +175,27 @@ const getTasks = async (req, res, next) => {
             tasks = await Task.find({}).sort({ createdAt: sort })
         }
         if (filter && sort) {
+            // Need to fix createdAt parameter to owner.createdAt
             tasks = await Task.find({ status: filter }).sort({ createdAt: sort });
         }
     } catch (err) {
-        console.log(err)
-        const error = new HttpError(`Could not fetch tasks. ${err}`, 500);
+        const error = new HttpError(err.message, 500);
         return next(error);
     }
 
     res.json({ data: { tasks } });
 }
 
-// Assign to user
+/* Assign to user */
 const assignTo = async (req, res, next) => {
-    const { taskId, assignTo } = req.body;
-    const userId = req.user.id;
+    const { assignTo } = req.body;
+    const taskId = req.params.tid;
 
     let task;
     try {
         task = await Task.findById(taskId);
     } catch (err) {
-        const error = new HttpError('Something went wrong, could not update task', 500);
+        const error = new HttpError(err.message, 500);
         return next(error);
     }
 
@@ -214,28 +205,26 @@ const assignTo = async (req, res, next) => {
     }
 
     if (task.assignTo && task.assignTo.equals(assignTo)) {
-        return res.status(200).json({ data: { task: task.toObject({ getters: true }), message: 'Success!' } });
+        return res.status(200).json({ data: { task, message: 'Success!' } });
     }
 
     try {
         const promises = [
-            // 2. Update task and user
             Task.updateOne({ _id: task._id }, { $set: { assignTo } }),
-            User.updateOne({ _id: assignTo }, { $addToSet: { tasks: task._id } })
+            User.updateOne({ _id: assignTo }, { $addToSet: { tasks: task._id } }),
         ];
-
-        // 1. Delete task from assigned user
+        
         if (task.assignTo) {
             promises.push(User.updateOne({ _id: task.assignTo }, { $pull: { tasks: task._id } }));
         }
-
+        
         await Promise.all(promises);
     } catch (err) {
-        const error = new HttpError('Something went wrong, could not assign task', 500);
+        const error = new HttpError(err.message, 500);
         return next(error);
     }
-
-    res.status(200).json({ data: { task: task.toObject({ getters: true }), message: 'Success!' } });
+    // Need to fix, in response assignTo == owner (is not updated).
+    res.status(200).json({ data: { task, message: 'Success!' } });
 }
 
 module.exports = {

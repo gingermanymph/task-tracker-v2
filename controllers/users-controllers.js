@@ -10,6 +10,7 @@ const getUsers = async (req, res, next) => {
     // /api/users                   : page 1, limit 10, next
     // /api/users?page=1            : page 1, limit 10, next
     // /api/users?page=2&limit=5    : page 1, limit  5, next, previous
+    // Moved to middleware
     res.json({ data: { users: res.paginatedResult } });
 }
 
@@ -28,14 +29,12 @@ const getUserById = async (req, res, next) => {
         }
 
     } catch (err) {
-        const error = new HttpError('Fetching users failed, please try again later.', 500);
+        const error = new HttpError(err.message, 500);
         return next(error);
     }
 
     res.json({
-        data: {
-            user: user.toObject({ getters: true })
-        }
+        data: { user }
     });
 }
 
@@ -99,7 +98,8 @@ const login = async (req, res, next) => {
     const token = jwt.sign(
         { id: existingUser._id },
         config.get("jwtSecret"),
-        { expiresIn: '3h' });
+        // { expiresIn: '3h' }
+        );
 
     res.status(200).json({ data: { token, message: "Success!" } });
 }

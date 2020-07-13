@@ -8,12 +8,12 @@ router.get('/', tasksControllers.getTasks);
 
 router.post('/create', authMiddleware, tasksControllers.createTask);
 
-router.patch('/edit/:tid', authMiddleware, tasksControllers.editTask);
+router.patch('/:tid/edit', authMiddleware, tasksControllers.editTask);
 
-router.patch('/changeStatus/:tid', authMiddleware, tasksControllers.changeStatus);
+router.patch('/:tid/changeStatus', authMiddleware, tasksControllers.changeStatus);
 
-router.patch('/assignTo', authMiddleware, tasksControllers.assignTo);
+router.patch('/:tid/assignTo', authMiddleware, tasksControllers.assignTo);
 
-router.delete('/delete/:tid', authMiddleware, tasksControllers.deleteTask);
+router.delete('/:tid/delete', authMiddleware, tasksControllers.deleteTask);
 
 module.exports = router;
