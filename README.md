@@ -28,40 +28,29 @@ The server will start automatically in 5 - 7 seconds after clicking on this link
      - /api/tasks/{task_id}/assignTo
      - /api/tasks/{task_id}/delete
 
-### Пользователь
-
-- Регистрация пользователя
-
+### User
+- User registration
     - Authorization - Bearer Token (JWT)
-
-- Вход для пользователя
-- Редактирование данных у пользователя
-- Удаление пользователя
-- Получение данных пользователя
+- User login
+- User edit profile
+- User delete account
+- User get info
 
 ### Пользователи
-
-- Получение всех пользователей
-
-    - Должна присутствовать пагинация (лимит 10 пользователей на страницу)
+- Get all users
+    - Pages and pagination (limit 10 users per page)
     
-### Задачи
-
-- Создание задачи
-
-    - При создание задача должна быть присвоена ее создателю
-
-- Редактирование задачи
-- Изменить статус задачи
-
-    - Должны быть три возможных статуса: `["View", "In Progress", "Done"]`
-
-- Удаление задачи
-- Получение списка задач
-    - Отфильтровав по статусу
-    - Отсортировав по новым/старым ~~пользователям~~ задачам
-- Изменить пользователя на которого назначена задача
-
-    Один пользователь имеет возможность назначить задачу другому пользователю
-## Технические требования:
-Используется база данных ~~MySQL/PostgreSQL~~ MongoDB
+### Tasks
+- Task creation
+    - User became as owner after task creation
+- Task edit
+- Task change status
+    - Available statuses: `["View", "In Progress", "Done"]`
+- Task delete
+- Task get list
+    - Filter by status
+    - Sort by new/old ~~users~~ tasks
+- Assign to another user
+    - Each user can assign the task to another users
+### Technocal requirements:
+Used database ~~MySQL/PostgreSQL~~ MongoDB
