@@ -36,13 +36,13 @@ The server will start automatically in 5 - 7 seconds after clicking on this link
 - User delete account
 - User get info
 
-### Пользователи
+### Users
 - Get all users
     - Pages and pagination (limit 10 users per page)
     
 ### Tasks
 - Task creation
-    - User became as owner after task creation
+    - A user becomes an owner after task creation
 - Task edit
 - Task change status
     - Available statuses: `["View", "In Progress", "Done"]`
@@ -52,5 +52,6 @@ The server will start automatically in 5 - 7 seconds after clicking on this link
     - Sort by new/old ~~users~~ tasks
 - Assign to another user
     - Each user can assign the task to another users
+    
 ### Technocal requirements:
 Used database ~~MySQL/PostgreSQL~~ MongoDB
