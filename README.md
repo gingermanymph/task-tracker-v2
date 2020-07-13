@@ -3,6 +3,13 @@
 Configured API on this web server https://task-tracker-v2.herokuapp.com/
 The server will start automatically in 5 - 7 seconds after clicking on this link.
 
+### Set up
+ - npm install
+ 
+### Running server
+ - npm run dev `For development`
+ - npm start `For production`
+
 ### Routes
  - Users
      - /api/users
