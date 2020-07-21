@@ -209,6 +209,7 @@ const assignTo = async (req, res, next) => {
     }
 
     try {
+        // Need to fix. Assigning task to valid but unexisted random IDs
         const promises = [
             Task.updateOne({ _id: task._id }, { $set: { assignTo } }),
             User.updateOne({ _id: assignTo }, { $addToSet: { tasks: task._id } }),
