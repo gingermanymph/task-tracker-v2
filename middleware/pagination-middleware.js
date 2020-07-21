@@ -28,7 +28,7 @@ const paginatedData = model => async (req, res, next) => {
     }
 
     try {
-        pagination.result = await model.find().limit(limit).skip(startIndex).exec();
+        pagination.result = await model.find({}, '-password').limit(limit).skip(startIndex).exec();
         res.paginatedResult = pagination;
         next();
     } catch (err) {
