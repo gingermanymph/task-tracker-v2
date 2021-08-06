@@ -55,3 +55,4 @@ The server will start automatically in 5 - 7 seconds after clicking on this link
     
 ### Technocal requirements:
 Used database ~~MySQL/PostgreSQL~~ MongoDB
+
